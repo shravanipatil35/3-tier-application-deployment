@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="grid two-col">
+    <div class="card">
+        <h2>Add Employee</h2>
+        <form method="post" action="{{ url_for('add_employee') }}" class="form-grid">
+            <input type="text" name="name" placeholder="Employee name" required>
+            <input type="email" name="email" placeholder="Email address" required>
+            <input type="text" name="department" placeholder="Department" required>
+            <button type="submit">Add Employee</button>
+        </form>
+    </div>
+    <div class="card">
+        <h2>Why this module matters</h2>
+        <p>
+            Teams need a clean employee directory before they can assign work and process leave requests.
+            This makes the application practical for real office use.
+        </p>
+    </div>
+</section>
+
+<section class="card">
+    <h2>Employee Directory</h2>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Department</th>
+                    <th>Created</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for employee in employees %}
+                <tr>
+                    <td>{{ employee.name }}</td>
+                    <td>{{ employee.email }}</td>
+                    <td>{{ employee.department }}</td>
+                    <td>{{ employee.created_at.strftime('%d %b %Y') }}</td>
+                    <td>
+                        <form method="post" action="{{ url_for('delete_employee', employee_id=employee.id) }}">
+                            <button class="danger" type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5">No employees added yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}
